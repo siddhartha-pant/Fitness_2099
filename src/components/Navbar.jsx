@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+   const navigate=useNavigate();
   // Function to toggle the mobile menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -18,13 +19,13 @@ const Navbar = () => {
 
   return (
     <nav
-      className="fixed top-0 p-4 flex items-center justify-between z-50 overflow-hidden border-b border-white border-opacity-20"
+      className="fixed top-0 p-4 flex items-center justify-between z-50 overflow-hidden"
       // Apply the same gradient background and animation as your other components
       style={{
         width: '100vw', // Explicitly set to 100% of viewport width
         backgroundImage: 'linear-gradient(to right, #1e3a8a, #7f1d1d, #000000)', // Equivalent to from-blue-900 via-red-900 to-black
         backgroundSize: '200% 200%',
-        animation: 'gradient 3.50s ease infinite',
+        animation: 'gradient 10s ease infinite',
       }}
     >
       {/* Ensure the gradient animation keyframes are available (e.g., in index.css or tailwind.config.js) */}
@@ -64,7 +65,7 @@ const Navbar = () => {
           About
         </button>
         <button
-          onClick={() => handleNavigation('SignIn')}
+          onClick={() => handleNavigation(navigate('signIn'))}
           className="text-blue-300 hover:text-blue-100 transition-colors duration-300 text-lg font-semibold"
         >
           Sign In
@@ -87,7 +88,7 @@ const Navbar = () => {
       <div className="md:hidden">
         <button
           onClick={toggleMenu}
-          className="text-white focus:outline-none cursor-pointer" // Added cursor-pointer for visual feedback
+          className="text-white focus:outline-none cursor-pointer"
           aria-label="Toggle menu"
         >
           {/* Hamburger SVG icon */}
@@ -117,13 +118,12 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay (the dropdown menu) */}
       {isMenuOpen && (
         <div
-          className="md:hidden absolute top-full left-0 w-full bg-gray-900 bg-opacity-90 flex flex-col items-center py-4 space-y-4 shadow-lg animate-fade-in"
+          className="md:hidden absolute top-full left-0 w-full bg-gray-900 bg-opacity-90 flex flex-col items-center py-4 space-y-4 shadow-lg animate-fade-in z-[60]" // Increased z-index to z-[60]
           style={{
             animation: 'fadeIn 0.3s ease-out forwards', // Apply fadeIn animation
-            zIndex: 40 // Ensure it's below the main navbar but above content
           }}
         >
             <style>

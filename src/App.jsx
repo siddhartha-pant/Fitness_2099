@@ -9,6 +9,7 @@ import LandingPage from './components/LandingPage'
 import Footer from './components/Footer'
 import FinalDisplayer from './components/FinalDisplayer'
 import Loader from './components/Loader'
+import FAQPage from './additional/FAQs'
 
 function App() {
   // State to control whether the loader is currently being displayed
