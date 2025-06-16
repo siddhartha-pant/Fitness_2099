@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="fixed top-0 p-4 flex items-center justify-between z-50 overflow-hidden"
+      className="fixed top-0 p-4 flex items-center justify-between border-b border-white border-opacity-20 z-50 overflow-hidden"
       // Apply the same gradient background and animation as your other components
       style={{
         width: '100vw', // Explicitly set to 100% of viewport width
