@@ -1,7 +1,9 @@
 // src/pages/SignupPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useNavigate } from 'react-router-dom';
+import { signup } from '../services/auth';
 
 const SignupPage = () => {
   const [name, setName] = useState('');
@@ -27,9 +29,9 @@ const SignupPage = () => {
 
   const imageUrl = "/src/assets/Untitled design.png";
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
+    
     const formData = {
       name,
       age: age ? parseInt(age, 10) : undefined,
@@ -40,8 +42,18 @@ const SignupPage = () => {
       ...(weight && { weight: parseFloat(weight) }),
       ...(trainingExperience && { trainingExperience: parseInt(trainingExperience, 10) }),
     };
-
-    dispatch(registerUser(formData));
+     console.log(formData, "form data");
+     try{
+      console.log("we are here")
+     const response=await signup(formData)
+     if(response.data){
+      navigate("/dashboard")
+      // dashboad pe route karna
+     }
+     }
+     catch(error){
+      console.log("something went wrong");
+     }
   };
 
   const handleSignInClick = () => {

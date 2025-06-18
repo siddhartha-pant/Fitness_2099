@@ -8,6 +8,8 @@ import SignupPage from './components/SignUp.jsx'
 import LoginPage from './components/LoginPage.jsx'
 import FinalDisplayer from './components/FinalDisplayer.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
+import { Provider } from 'react-redux'
+import store from './redux/Store.jsx'
 const router=createBrowserRouter([
   {
     path:'/',

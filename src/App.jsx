@@ -37,7 +37,7 @@ function App() {
         <>
           <Navbar /> {/* Your fixed Navbar */}
           <main className="flex-grow pt-16"> {/* Main content area, flex-grow to push footer down */}
-            <LandingPage /> {/* Your Landing Page */}
+            <SignupPage /> {/* Your Landing Page */}
           </main>
           <Footer /> {/* Your Footer */}
         </>

@@ -1,7 +1,9 @@
+import axios from "axios"
 import { useDispatch } from "react-redux"
 import { baseAPI } from "../../api/apiProvider"
-const dispatch=useDispatch();
+
 export const signin=async({email, password})=>{
+    const dispatch=useDispatch();
     const payload=
         {
         "email": email,
@@ -10,6 +12,7 @@ export const signin=async({email, password})=>{
     try{ 
         const response=await baseAPI.post("auth/signin", payload)
         dispatch(loginSuccess(response.data.token))
+        return response.data;
     }
     catch(error){
     throw error
@@ -18,6 +21,8 @@ export const signin=async({email, password})=>{
 
 
 export const signup=async({ name, email, password, gender, age })=>{
+    console.log(name, email, password, age, gender)
+    // const dispatch=useDispatch();
     const payload=
         {
         "email": email,
@@ -26,9 +31,12 @@ export const signup=async({ name, email, password, gender, age })=>{
         "gender":gender,
         "age":age
         }
+        console.log("above try", payload)
     try{ 
-        const response=await baseAPI.post("auth/signup", payload)
-        dispatch(loginSuccess(response.data.token))
+        console.log("we are inside try")
+        const response=await axios.post("https://connectusonfitness.onrender.com/api/v1/auth/signup", payload)
+        // dispatch(loginSuccess(response.data.token))
+        return response.data;
     }
     catch(error){
     throw error
