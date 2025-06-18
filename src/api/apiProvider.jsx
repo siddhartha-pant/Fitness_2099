@@ -1,23 +1,31 @@
 // src/api/api.js
 import axios from 'axios';
-export const baseURL=import.meta.env.BASE_URL;
-const API = axios.create({
-  baseURL: 'https://connectusonfitness.onrender.com/api/v1', // IMPORTANT: Adjust this to your actual backend API base URL
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+export const baseUrl=import.meta.env.BASE_URL;
 
-// Interceptor to attach JWT token to outgoing requests
-API.interceptors.request.use((req) => {
-  const token = localStorage.getItem('token'); // Get token from local storage
-
-  if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
+export const baseAPI=axios.create({
+  baseURL:baseUrl,
+  headers:{
+    "Content-Type":"application/json"
   }
-  return req;
-});
+})
+  const API=axios.create({
+    baseURL:baseUrl,
+    headers:{
+       "Content-Type":"application/json"
+    }
+  })
+  API.interceptors.request.use(
+    config=>{
+      const token=localStorage.getItem("token")
+      if(token){
+        config.headers["Authorization"]=`Bearer ${token}`  
+      }
+      return config;
+    },
+    error=>{
+      Promise.reject(error)
+    }
+  )
 
-export default API;
-
+  export default API
 
