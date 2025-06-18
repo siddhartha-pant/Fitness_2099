@@ -1,8 +1,8 @@
 // src/api/api.js
 import axios from 'axios';
-
+export const baseURL=import.meta.env.BASE_URL;
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api/v1', // IMPORTANT: Adjust this to your actual backend API base URL
+  baseURL: 'https://connectusonfitness.onrender.com/api/v1', // IMPORTANT: Adjust this to your actual backend API base URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -19,3 +19,5 @@ API.interceptors.request.use((req) => {
 });
 
 export default API;
+
+
