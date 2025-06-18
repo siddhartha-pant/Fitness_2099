@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage.jsx'
 import SignupPage from './components/SignUp.jsx'
 import LoginPage from './components/LoginPage.jsx'
 import FinalDisplayer from './components/FinalDisplayer.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 const router=createBrowserRouter([
   {
     path:'/',

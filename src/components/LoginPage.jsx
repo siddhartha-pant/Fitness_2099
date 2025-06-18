@@ -1,7 +1,7 @@
 // src/pages/LoginPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from './features/auth/AuthSlice.jsx'; // Adjust the import path as necessary
+
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
