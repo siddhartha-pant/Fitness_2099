@@ -1,10 +1,11 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext'; // Import useTheme hook
 
 const Footer = () => {
+  const { theme } = useTheme(); // Use theme from context
+
   const handleContactUs = () => {
     alert('Contact Us button clicked! (Implement your contact form or link)');
-    // In a real application, you might navigate to a contact page
-    // or open a modal contact form.
   };
 
   const handleInstagramClick = () => {
@@ -13,36 +14,25 @@ const Footer = () => {
 
   const handleLinkClick = (linkName) => {
     alert(`${linkName} clicked!`);
-    // In a real app, you'd navigate to specific pages:
-    // e.g., history.push('/terms-of-use');
   };
 
   return (
-    // This footer is now designed to appear at the end of the page content flow.
-    // Ensure its parent container (e.g., your App.jsx's main layout) uses
-    // flex-col and min-h-screen on the wrapper and flex-grow on content
-    // to push this footer to the bottom of the page content.
     <footer
-      className="py-4 w-full text-gray-100 text-center z-20 overflow-hidden border-t border-white border-opacity-20"
+      className="py-4 w-full text-center z-20 overflow-hidden border-t border-opacity-20 transition-colors duration-500"
       style={{
-        backgroundImage: 'linear-gradient(to right, #1e3a8a, #7f1d1d, #000000)', // Equivalent to from-blue-900 via-red-900 to-black
+        backgroundImage: theme === 'dark'
+          ? 'linear-gradient(to right, #1e3a8a, #7f1d1d, #000000)' // Dark mode gradient
+          : 'linear-gradient(to right, #b57ef5, #FFFFFF, #f3f360)', // Light mode gradient
         backgroundSize: '200% 200%',
-        animation: 'gradient 10s ease infinite',
+        animation: 'gradient 6.50s ease infinite',
       }}
     >
-      {/* Ensure the gradient animation keyframes are available (if not global, define here) */}
       <style>
         {`
           @keyframes gradient {
-            0% {
-              background-position: 0% 50%;
-            }
-            50% {
-              background-position: 100% 50%;
-            }
-            100% {
-              background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
           }
         `}
       </style>
@@ -51,31 +41,33 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-6 text-sm mb-4">
           <button
             onClick={() => handleLinkClick('Terms of Use')}
-            className="text-gray-300 hover:text-white hover:underline transition-colors duration-200"
+            className={`text-sm hover:underline transition-colors duration-200
+                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`} 
           >
             Terms of Use
           </button>
           <button
             onClick={() => handleLinkClick('Privacy Policy')}
-            className="text-gray-300 hover:text-white hover:underline transition-colors duration-200"
+            className={`text-sm hover:underline transition-colors duration-200
+                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`} 
           >
             Privacy Policy
           </button>
           <button
             onClick={() => handleLinkClick('Copyright')}
-            className="text-gray-300 hover:text-white hover:underline transition-colors duration-200"
+            className={`text-sm hover:underline transition-colors duration-200
+                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`} 
           >
             Copyright
           </button>
-          {/* Changed from <button> to <div> for clickable image behavior */}
           <div
             onClick={handleInstagramClick}
-            className="text-gray-300 hover:text-pink-500 transition-colors duration-200 group cursor-pointer" // Added cursor-pointer
+            className={`cursor-pointer group transition-colors duration-200
+                        ${theme === 'dark' ? 'text-gray-300 hover:text-pink-500' : 'text-gray-700 hover:text-pink-600'}`}
             aria-label="Visit our Instagram"
           >
-            {/* Instagram SVG icon path */}
             <svg
-              className="w-6 h-6 inline-block group-hover:underline" // Added group-hover:underline for visual effect
+              className="w-6 h-6 inline-block group-hover:underline"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -88,7 +80,10 @@ const Footer = () => {
         </div>
 
         {/* Copyright Text */}
-        <p className="text-sm text-gray-300">Made with Love, By Siddhartha</p>
+        <p className={`text-sm transition-colors duration-500
+                       ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}> {/* Changed to gray-700 for light mode */}
+          Made with Love, By Siddhartha
+        </p>
       </div>
     </footer>
   );
