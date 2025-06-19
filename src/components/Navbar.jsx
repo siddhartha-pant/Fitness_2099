@@ -11,7 +11,7 @@ const Navbar = () => {
 
   // Dummy navigation handler
   const handleNavigation = (section) => {
-    console.log(`Navigating to: ${section}`);
+   navigate(section)
     setIsMenuOpen(false); // Close menu on navigation for mobile
     // In a real app, you'd use React Router or similar for navigation
     // e.g., history.push(`/${section.toLowerCase()}`);
@@ -74,7 +74,7 @@ const Navbar = () => {
           onClick={() => handleNavigation('ContactUs')}
           className="text-blue-300 hover:text-blue-100 transition-colors duration-300 text-lg font-semibold"
         >
-          Contact Us
+          About Us
         </button>
         <button
           onClick={() => handleNavigation('FAQ')}
@@ -156,7 +156,7 @@ const Navbar = () => {
             onClick={() => handleNavigation('ContactUs')}
             className="block text-blue-300 hover:text-blue-100 transition-colors duration-300 text-xl font-semibold w-full py-2 text-center"
           >
-            Contact Us
+           About Us
           </button>
           <button
             onClick={() => handleNavigation('FAQ')}

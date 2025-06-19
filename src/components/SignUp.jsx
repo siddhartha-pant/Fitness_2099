@@ -1,9 +1,8 @@
 // src/pages/SignupPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../services/auth';
+import { signup } from '../services/auth'; // Assuming this path is correct
 
 const SignupPage = () => {
   const [name, setName] = useState('');
@@ -27,43 +26,49 @@ const SignupPage = () => {
     }
   }, [isAuthenticated, navigate, sessionChecked]);
 
-  const imageUrl = "/src/assets/Untitled design.png";
+  // IMPORTANT: Set this to an empty string to remove the placeholder background image with text.
+  // The animated gradient will now be the sole background.
+  const imageUrl = ""; // Changed to an empty string
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const formData = {
       name,
       age: age ? parseInt(age, 10) : undefined,
       email,
       password,
-      gender: sex,
+      gender: sex, // 'sex' state maps to 'gender' in formData
       ...(height && { height: parseFloat(height) }),
       ...(weight && { weight: parseFloat(weight) }),
       ...(trainingExperience && { trainingExperience: parseInt(trainingExperience, 10) }),
     };
-     console.log(formData, "form data");
-     try{
-      console.log("we are here")
-     const response=await signup(formData)
-     if(response.data){
-      navigate("/dashboard")
-      // dashboad pe route karna
-     }
-     }
-     catch(error){
-      console.log("something went wrong");
-     }
+    console.log(formData, "form data");
+    try {
+      console.log("Attempting signup...");
+      // Assuming 'signup' is an async action that returns a response
+      const response = await signup(formData); // Removed dispatch as signup directly returns a response
+      if (response.data) {
+        console.log("Signup successful, navigating to dashboard.");
+        navigate("/dashboard"); // dashboad pe route karna
+      } else {
+        console.log("Signup did not return data as expected.");
+      }
+    } catch (error) {
+      console.error("Signup failed:", error); // Use console.error for errors
+      // You might want to update Redux state with this error to display it to the user
+      // e.g., dispatch(signupFailure(error.message));
+    }
   };
 
   const handleSignInClick = () => {
-    navigate('/login');
+    navigate('/signIn');
   };
 
   return (
-    <div className="relative h-screen w-screen flex flex-col items-center justify-center p-4 overflow-hidden">
+    <div className="relative min-h-screen w-screen flex flex-col items-center justify-start p-4 overflow-hidden"> {/* `overflow-hidden` prevents horizontal scrolling */}
       {/* Background layers */}
-      {/* ... (Your existing background JSX) ... */}
+      {/* This div will now effectively not render any image because imageUrl is empty */}
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${imageUrl})` }}></div>
       <div
         className="absolute inset-0 bg-gradient-to-r from-blue-900 via-red-900 to-black animate-gradient opacity-70"
@@ -79,29 +84,29 @@ const SignupPage = () => {
       </div>
 
       {/* Content Layer (Form) */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-md">
+      <div className="relative z-10 flex flex-col items-center w-full max-w-md pt-20 pb-10"> {/* pt-20 pushes content below Navbar, pb-10 adds bottom spacing */}
         <div className="bg-gray-900 bg-opacity-75 rounded-xl shadow-xl p-8 w-full border-2 border-red-700">
           <h2 className="text-3xl font-bold text-center text-blue-500 mb-8">Sign Up</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="name" className="block text-gray-300 text-sm font-bold mb-2">Name</label>
-              <input type="text" id="name" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
+              <input type="text" id="name" name="name" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
             </div>
             <div className="mb-4">
               <label htmlFor="age" className="block text-gray-300 text-sm font-bold mb-2">Age</label>
-              <input type="number" id="age" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 30" value={age} onChange={(e) => setAge(e.target.value)} min="1" required />
+              <input type="number" id="age" name="age" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 30" value={age} onChange={(e) => setAge(e.target.value)} min="1" required />
             </div>
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-300 text-sm font-bold mb-2">Email</label>
-              <input type="email" id="email" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="your@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <input type="email" id="email" name="email" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="your@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div className="mb-4">
               <label htmlFor="password" className="block text-gray-300 text-sm font-bold mb-2">Password</label>
-              <input type="password" id="password" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <input type="password" id="password" name="password" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             <div className="mb-4">
               <label htmlFor="sex" className="block text-gray-300 text-sm font-bold mb-2">Gender</label>
-              <select id="sex" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" value={sex} onChange={(e) => setSex(e.target.value)} required>
+              <select id="sex" name="sex" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" value={sex} onChange={(e) => setSex(e.target.value)} required>
                 <option value="">Select...</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -110,15 +115,15 @@ const SignupPage = () => {
             </div>
             <div className="mb-4">
               <label htmlFor="height" className="block text-gray-300 text-sm font-bold mb-2">Height (in cms) <span className="text-gray-500 text-xs">(Optional)</span></label>
-              <input type="number" id="height" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 175" value={height} onChange={(e) => setHeight(e.target.value)} min="0" />
+              <input type="number" id="height" name="height" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 175" value={height} onChange={(e) => setHeight(e.target.value)} min="0" />
             </div>
             <div className="mb-4">
               <label htmlFor="weight" className="block text-gray-300 text-sm font-bold mb-2">Weight (in kg) <span className="text-gray-500 text-xs">(Optional)</span></label>
-              <input type="number" id="weight" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 70.5" value={weight} onChange={(e) => setWeight(e.target.value)} step="0.1" min="0" />
+              <input type="number" id="weight" name="weight" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 70.5" value={weight} onChange={(e) => setWeight(e.target.value)} step="0.1" min="0" />
             </div>
             <div className="mb-6">
               <label htmlFor="trainingExperience" className="block text-gray-300 text-sm font-bold mb-2">Training Experience (in months) <span className="text-gray-500 text-xs">(Optional)</span></label>
-              <input type="number" id="trainingExperience" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 12" value={trainingExperience} onChange={(e) => setTrainingExperience(e.target.value)} min="0" />
+              <input type="number" id="trainingExperience" name="trainingExperience" className="shadow appearance-none border border-gray-700 rounded-md w-full py-3 px-4 bg-gray-800 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 ease-in-out" placeholder="e.g. 12" value={trainingExperience} onChange={(e) => setTrainingExperience(e.target.value)} min="0" />
             </div>
             <div className="flex items-center justify-center">
               <button

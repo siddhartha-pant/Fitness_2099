@@ -10,10 +10,12 @@ import FinalDisplayer from './components/FinalDisplayer.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import { Provider } from 'react-redux'
 import store from './redux/Store.jsx'
+import FAQPage from './additional/FAQs.jsx'
+import AboutUsPage from './additional/AboutUs.jsx'
 const router=createBrowserRouter([
   {
     path:'/',
-    element:<App />,
+    element:<FinalDisplayer />,
     children:[
       {
         path:'/signup',
@@ -22,6 +24,18 @@ const router=createBrowserRouter([
       {
         path:'/signIn',
         element:<LoginPage/>
+      },
+      {
+        path:'/home',
+        element:<App/>
+      },
+      {
+        path:'/faqs',
+        element:<FAQPage/>
+      },
+      {
+        path:'/aboutus',
+        element:<AboutUsPage/>
       }
     ]
   }
