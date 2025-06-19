@@ -42,21 +42,21 @@ const Footer = () => {
           <button
             onClick={() => handleLinkClick('Terms of Use')}
             className={`text-sm hover:underline transition-colors duration-200
-                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`} 
+                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-white hover:text-blue-300'}`} 
           >
             Terms of Use
           </button>
           <button
             onClick={() => handleLinkClick('Privacy Policy')}
             className={`text-sm hover:underline transition-colors duration-200
-                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`} 
+                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-white hover:text-blue-300'}`} 
           >
             Privacy Policy
           </button>
           <button
             onClick={() => handleLinkClick('Copyright')}
             className={`text-sm hover:underline transition-colors duration-200
-                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`} 
+                        ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-white hover:text-blue-300'}`} 
           >
             Copyright
           </button>

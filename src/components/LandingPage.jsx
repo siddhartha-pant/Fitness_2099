@@ -111,13 +111,13 @@ const LandingPage = () => {
 
         {/* Hero Section */}
         <section className={`text-center py-16 md:py-24 max-w-4xl mx-auto transition-colors duration-500
-                           ${theme === 'dark' ? 'text-white' : 'text-black'}`}> {/* Text color adjusted for light mode */}
+                           ${theme === 'dark' ? 'text-white' : 'text-white'}`}> {/* Text color adjusted for light mode */}
           <h1 className={`text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-lg transition-colors duration-500
-                          ${theme === 'dark' ? 'text-blue-400' : 'text-blue-800'}`}> {/* Deep blue for light mode */}
+                          ${theme === 'dark' ? 'text-blue-400' : 'text-white'}`}> {/* Deep blue for light mode */}
             Unleash Your Future Self
           </h1>
           <p className={`text-xl md:text-2xl mb-8 leading-relaxed px-4 transition-colors duration-500
-                         ${theme === 'dark' ? 'text-gray-200' : 'text-gray-800'}`}> {/* Darker gray for light mode */}
+                         ${theme === 'dark' ? 'text-gray-200' : 'text-white'}`}> {/* Darker gray for light mode */}
             Step into Fitness 2099 – where cutting-edge technology meets personalized wellness.
             Your journey to peak performance and holistic well-being starts here, today.
           </p>
@@ -137,7 +137,7 @@ const LandingPage = () => {
                          focus:outline-none focus:ring-4
                          ${theme === 'dark'
                            ? 'bg-transparent border-blue-500 text-blue-300 hover:bg-blue-900 hover:border-blue-900 focus:ring-blue-500'
-                           : 'bg-transparent border-blue-800 text-blue-800 hover:bg-blue-100 hover:border-blue-100 focus:ring-blue-800' // Deep Blue for light mode border and text
+                           : 'bg-transparent border-blue-800 text-white hover:bg-blue-100 hover:border-blue-100 focus:ring-blue-800' // Deep Blue for light mode border and text
                          }`}
             >
               Already a Member? Sign In

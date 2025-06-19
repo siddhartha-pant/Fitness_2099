@@ -16,14 +16,13 @@ import { useSelector } from 'react-redux'
 
 
 function App() {
-  // State to control whether the loader is currently being displayed
+  
   const [showLoader, setShowLoader] = useState(true);
   const isAuthenticated=useSelector((store)=>store.auth.isAuthenticated);
   console.log(isAuthenticated, "pata chale");
-  // This function is passed as a prop to the Loader.
-  // The Loader will call this function when its animation sequence is complete.
+ 
   const handleLoaderComplete = () => {
-    setShowLoader(false); // Set showLoader to false to hide the loader
+    setShowLoader(false); 
   };
 
   return (
