@@ -13,6 +13,7 @@ import store from './redux/Store.jsx'
 import FAQPage from './additional/FAQs.jsx'
 import AboutUsPage from './additional/AboutUs.jsx'
 import DashboardPage from './components/Dashboard.jsx'
+import DailyFoodDiary from './components/DailyFoodDiary.jsx'
 const router=createBrowserRouter([
   {
     path:'/',

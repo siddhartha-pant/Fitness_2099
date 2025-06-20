@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext'; // Import useTheme hook
 import { useSelector } from 'react-redux'; // To get authentication state if needed
+import DailyFoodDiary from './DailyFoodDiary';
 
 const DashboardPage = () => {
   const { theme } = useTheme(); // Get the current theme from context
@@ -203,8 +204,8 @@ const DashboardPage = () => {
       `}</style>
 
       {/* Dashboard Content Container */}
-      <div className={`relative z-10 w-full max-w-6xl mx-auto my-8 p-6 md:p-8 rounded-3xl shadow-2xl backdrop-blur-md
-                    flex flex-col space-y-8 transition-colors duration-500
+      <div className={`relative z-10 w-full mx-auto my-8 p-6 md:p-8 rounded-3xl
+                flex flex-col space-y-8 backdrop-blur-md border border-transparent bg-transparent transition-all duration-500
                     ${theme === 'dark' ? 'bg-gray-900 bg-opacity-70 border border-red-700' : 'bg-white bg-opacity-70 border border-blue-300'}`}>
 
         {/* Top Section: User Name and Profile Picture */}
@@ -235,16 +236,16 @@ const DashboardPage = () => {
         </header>
 
         {/* Daily Insights Section (Moved to top) */}
-        <section className="p-6 rounded-xl shadow-lg border transition-colors duration-500
-                         ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-purple-700' : 'bg-gray-50 bg-opacity-60 border-purple-200'}">
+        <section className="p-6 rounded-xl shadow-lg border 
+    ${theme === 'dark' ? 'bg-transparent border-white/10' : 'bg-transparent border-black/10'}}">
           <h3 className={`${headingColor} text-2xl font-bold mb-4 text-center`}>Daily Insights</h3>
           <p className={`${textColorPrimary} text-center text-xl font-semibold italic mb-4`}>{currentDate}</p>
           {/* Removed motivational quote and article */}
         </section>
 
         {/* Your Fitness Goal Section */}
-        <section className="p-6 rounded-xl shadow-lg border transition-colors duration-500
-                         ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-indigo-700' : 'bg-gray-50 bg-opacity-60 border-indigo-200'}">
+        <section className="p-6 rounded-xl shadow-lg border 
+    ${theme === 'dark' ? 'bg-transparent border-white/10' : 'bg-transparent border-black/10'}">
           <h3 className={`${headingColor} text-2xl font-bold mb-6 text-center`}>Choose Your Fitness Goal</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {fitnessGoals.map((goal) => (
@@ -302,6 +303,7 @@ const DashboardPage = () => {
         </section>
 
         {/* Your Progress Charts Section */}
+        <DailyFoodDiary/> {/* End of Your Progress Charts Section */}
         <section className="p-6 rounded-xl shadow-lg border transition-colors duration-500
                          ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-yellow-700' : 'bg-gray-50 bg-opacity-60 border-yellow-200'}">
           <h3 className={`${headingColor} text-2xl font-bold mb-4`}>Your Progress Charts</h3>
