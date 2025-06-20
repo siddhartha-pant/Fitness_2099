@@ -20,11 +20,30 @@ const DashboardPage = () => {
   const [editedWeight, setEditedWeight] = useState('');
   const [editedTrainingExperience, setEditedTrainingExperience] = useState('');
 
+  // Daily content states
+  const [currentDate, setCurrentDate] = useState('');
+  // Removed randomQuote and randomArticle states
 
   // Placeholder for authentication state from Redux, if your app uses it
   const { isAuthenticated } = useSelector((state) => state.auth);
 
+  // Data for motivational quotes (removed as per request)
+  // const motivationalQuotes = [...];
+
+  // Data for daily fitness articles/summaries (removed as per request)
+  // const fitnessArticles = [...];
+
   useEffect(() => {
+    // Set current date
+    const today = new Date();
+    // Using 'EEEE, MMMM d, YYYY' for full weekday, month name, day, and year
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    setCurrentDate(today.toLocaleDateString(undefined, options));
+
+    // Removed random quote and random article setting
+    // setRandomQuote(...);
+    // setRandomArticle(...);
+
     // Simulate fetching user data from a backend
     const fetchUserData = () => {
       setLoadingUser(true);
@@ -214,6 +233,14 @@ const DashboardPage = () => {
             <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white shadow-md"></span>
           </div>
         </header>
+
+        {/* Daily Insights Section (Moved to top) */}
+        <section className="p-6 rounded-xl shadow-lg border transition-colors duration-500
+                         ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-purple-700' : 'bg-gray-50 bg-opacity-60 border-purple-200'}">
+          <h3 className={`${headingColor} text-2xl font-bold mb-4 text-center`}>Daily Insights</h3>
+          <p className={`${textColorPrimary} text-center text-xl font-semibold italic mb-4`}>{currentDate}</p>
+          {/* Removed motivational quote and article */}
+        </section>
 
         {/* Your Fitness Goal Section */}
         <section className="p-6 rounded-xl shadow-lg border transition-colors duration-500
