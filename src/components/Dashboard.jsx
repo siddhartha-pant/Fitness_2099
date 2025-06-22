@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import DailyFoodDiary from './DailyFoodDiary';
 import DailyMoodLog from './DailyMood';
 import Navbar from './Navbar';
+import { getUserProfile } from '../services/profile';
 
 const DashboardPage = () => {
   const { theme } = useTheme();
@@ -24,9 +25,16 @@ const DashboardPage = () => {
 
   const [currentDate, setCurrentDate] = useState('');
 
+  const token=useSelector((store)=>store.auth.token)
+
   const { isAuthenticated } = useSelector((state) => state.auth);
+  
+
+
+  
 
   useEffect(() => {
+
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     setCurrentDate(today.toLocaleDateString(undefined, options));
