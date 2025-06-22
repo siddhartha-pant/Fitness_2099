@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext"; // Import useTheme hook
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/AuthSlice";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ const Navbar = () => {
   const isUserAuthenticated = useSelector(
     (store) => store.auth.isAuthenticated
   );
-  console.log(isUserAuthenticated);
+  const dispatch = useDispatch();
 
   // Function to toggle the mobile menu
   const toggleMenu = () => {
@@ -21,6 +22,12 @@ const Navbar = () => {
   const handleNavigation = (path) => {
     navigate(path);
     setIsMenuOpen(false); // Close menu on navigation for mobile
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/home");
+    setIsMenuOpen(false);
   };
 
   return (
@@ -34,7 +41,7 @@ const Navbar = () => {
             ? "linear-gradient(to right, #1e3a8a, #7f1d1d, #000000)" // Dark mode gradient
             : "linear-gradient(to right, #D8BFD8, #FFFFFF, #FFFFE0)", // Light mode gradient: Slightly Darker Purple, White, Very Light Yellow
         backgroundSize: "200% 200%",
-        animation: "gradient 10s ease infinite",
+        animation: "gradient 10s ease infinite"
       }}
     >
       <style>
@@ -84,27 +91,31 @@ const Navbar = () => {
         >
           About
         </Link>
-       {isUserAuthenticated?<Link
-          to="/home"
-          className={`text-lg font-semibold transition-colors duration-300
+        {isUserAuthenticated ? (
+          <button
+            onClick={handleLogout}
+            className={`text-lg font-semibold transition-colors duration-300
         ${
           theme === "dark"
             ? "text-blue-300 hover:text-blue-100"
             : "text-red-700 hover:text-blue-800"
         }`}
-        >
-          Logout
-        </Link>: <Link
-          to="/signin"
-          className={`text-lg font-semibold transition-colors duration-300
+          >
+            Logout
+          </button>
+        ) : (
+          <Link
+            to="/signin"
+            className={`text-lg font-semibold transition-colors duration-300
         ${
           theme === "dark"
             ? "text-blue-300 hover:text-blue-100"
             : "text-red-700 hover:text-blue-800"
         }`}
-        >
-          Sign In
-        </Link>}
+          >
+            Sign In
+          </Link>
+        )}
         <Link
           to="/contact-us"
           className={`text-lg font-semibold transition-colors duration-300
