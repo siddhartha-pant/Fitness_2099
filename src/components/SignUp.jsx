@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../services/auth'; // Assuming this path is correct
 import { useTheme } from '../context/ThemeContext'; // Import useTheme hook
+import { loginSuccess } from '../redux/AuthSlice';
 
 const SignupPage = () => {
   const [name, setName] = useState('');
@@ -25,7 +26,7 @@ const SignupPage = () => {
   useEffect(() => {
     // Only redirect if session has been checked and user is authenticated
     if (sessionChecked && isAuthenticated) {
-      navigate('/profile'); // Redirect to profile page or dashboard after signup
+      navigate('/dashboard'); // Redirect to profile page or dashboard after signup
     }
   }, [isAuthenticated, navigate, sessionChecked]);
 
@@ -52,8 +53,10 @@ const SignupPage = () => {
     try {
       console.log("Attempting signup...");
       const response = await signup(formData);
-      if (response.data) {
-        console.log("Signup successful, navigating to dashboard.");
+      if (response) {
+
+        dispatch(loginSuccess(response.token));
+
         navigate("/dashboard");
       } else {
         console.log("Signup did not return data as expected.");

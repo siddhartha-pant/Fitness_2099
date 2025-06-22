@@ -1,95 +1,73 @@
-// src/pages/DashboardPage.jsx
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '../context/ThemeContext'; // Import useTheme hook
-import { useSelector } from 'react-redux'; // To get authentication state if needed
+import { useTheme } from '../context/ThemeContext';
+import { useSelector } from 'react-redux';
 import DailyFoodDiary from './DailyFoodDiary';
+import DailyMoodLog from './DailyMood';
+import Navbar from './Navbar';
 
 const DashboardPage = () => {
-  const { theme } = useTheme(); // Get the current theme from context
-  const [userData, setUserData] = useState(null); // State to hold user data
-  const [loadingUser, setLoadingUser] = useState(true); // Loading state for user data
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode for user info
-  const [currentGoal, setCurrentGoal] = useState(null); // State for user's selected fitness goal
-  const [enlargedChart, setEnlargedChart] = useState(null); // State to track which chart is enlarged
+  const { theme } = useTheme();
+  const [userData, setUserData] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentGoal, setCurrentGoal] = useState(null);
+  const [enlargedChart, setEnlargedChart] = useState(null);
 
-  // States for editable user data
   const [editedName, setEditedName] = useState('');
   const [editedEmail, setEditedEmail] = useState('');
   const [editedAge, setEditedAge] = useState('');
   const [editedGender, setEditedGender] = useState('');
   const [editedHeight, setEditedHeight] = useState('');
   const [editedWeight, setEditedWeight] = useState('');
+  // Corrected the useState initialization for editedTrainingExperience
   const [editedTrainingExperience, setEditedTrainingExperience] = useState('');
 
-  // Daily content states
   const [currentDate, setCurrentDate] = useState('');
-  // Removed randomQuote and randomArticle states
 
-  // Placeholder for authentication state from Redux, if your app uses it
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  // Data for motivational quotes (removed as per request)
-  // const motivationalQuotes = [...];
-
-  // Data for daily fitness articles/summaries (removed as per request)
-  // const fitnessArticles = [...];
-
   useEffect(() => {
-    // Set current date
     const today = new Date();
-    // Using 'EEEE, MMMM d, YYYY' for full weekday, month name, day, and year
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     setCurrentDate(today.toLocaleDateString(undefined, options));
 
-    // Removed random quote and random article setting
-    // setRandomQuote(...);
-    // setRandomArticle(...);
-
-    // Simulate fetching user data from a backend
     const fetchUserData = () => {
       setLoadingUser(true);
-      setTimeout(() => {
-        const fetchedData = {
-          name: 'Siddhartha', // Dummy name
-          profilePicture: 'https://placehold.co/150x150/A020F0/FFFFFF/png?text=SD', // Placeholder
-          email: 'siddhartha@example.com',
-          age: 28,
-          gender: 'Male',
-          height: 178, // cm
-          weight: 75, // kg
-          trainingExperience: '1-2 years', // Match select option text
-          joinedDate: '2023-01-15',
-          goal: 'bulk' // Initial dummy goal
-        };
-        setUserData(fetchedData);
-        // Initialize editable states with fetched data
-        setEditedName(fetchedData.name);
-        setEditedEmail(fetchedData.email);
-        setEditedAge(fetchedData.age);
-        setEditedGender(fetchedData.gender);
-        setEditedHeight(fetchedData.height);
-        setEditedWeight(fetchedData.weight);
-        setEditedTrainingExperience(fetchedData.trainingExperience);
-        setCurrentGoal(fetchedData.goal); // Set initial goal
-
-        setLoadingUser(false);
-      }, 1500); // Simulate network delay
+      const fetchedData = {
+        name: 'Siddhartha',
+        profilePicture: 'https://placehold.co/150x150/A020F0/FFFFFF/png?text=SD',
+        email: 'siddhartha@example.com',
+        age: 28,
+        gender: 'Male',
+        height: 178,
+        weight: 75,
+        trainingExperience: '1-2 years',
+        joinedDate: '2023-01-15',
+        goal: 'bulk'
+      };
+      setUserData(fetchedData);
+      setEditedName(fetchedData.name);
+      setEditedEmail(fetchedData.email);
+      setEditedAge(fetchedData.age.toString()); // Ensure age is string for input value
+      setEditedGender(fetchedData.gender);
+      setEditedHeight(fetchedData.height.toString()); // Ensure height is string for input value
+      setEditedWeight(fetchedData.weight.toString()); // Ensure weight is string for input value
+      setEditedTrainingExperience(fetchedData.trainingExperience);
+      setCurrentGoal(fetchedData.goal);
+      setLoadingUser(false);
     };
 
-    if (true /* isAuthenticated */) { // Replace `true` with `isAuthenticated` if integrated
+    if (true /* isAuthenticated */) {
       fetchUserData();
     } else {
-      setLoadingUser(false); // Not authenticated, so no data to load
+      setLoadingUser(false);
     }
 
-  }, [isAuthenticated]); // Re-run if authentication status changes
+  }, [isAuthenticated]);
 
-  // Handle saving edited user data (simulated)
   const handleSaveChanges = () => {
-    // In a real app, send updated data to backend via API call
-    // e.g., axios.put('/api/user/profile', { editedName, editedEmail, ... });
     setUserData({
-      ...userData, // Keep existing data not being edited
+      ...userData,
       name: editedName,
       email: editedEmail,
       age: parseInt(editedAge, 10),
@@ -97,40 +75,35 @@ const DashboardPage = () => {
       height: parseFloat(editedHeight),
       weight: parseFloat(editedWeight),
       trainingExperience: editedTrainingExperience,
-      goal: currentGoal // Save the selected goal
+      goal: currentGoal
     });
-    setIsEditing(false); // Exit edit mode
-    alert('Profile updated successfully!'); // Simple alert for simulation
+    setIsEditing(false);
+    alert('Profile updated successfully!');
   };
 
-  // Handle canceling edit mode
   const handleCancelEdit = () => {
-    // Revert edited states back to current userData
     if (userData) {
       setEditedName(userData.name);
       setEditedEmail(userData.email);
-      setEditedAge(userData.age);
+      setEditedAge(userData.age.toString());
       setEditedGender(userData.gender);
-      setEditedHeight(userData.height);
-      setEditedWeight(userData.weight);
+      setEditedHeight(userData.height.toString());
+      setEditedWeight(userData.weight.toString());
       setEditedTrainingExperience(userData.trainingExperience);
-      setCurrentGoal(userData.goal); // Revert goal as well
+      setCurrentGoal(userData.goal);
     }
-    setIsEditing(false); // Exit edit mode
+    setIsEditing(false);
   };
 
-  // Handle chart click to enlarge/shrink
   const handleChartClick = (chartId) => {
     setEnlargedChart(enlargedChart === chartId ? null : chartId);
   };
 
-
-  // Determine background gradient based on theme
   const backgroundGradient = theme === 'dark'
-    ? 'linear-gradient(to right, #1e3a8a, #7f1d1d, #000000)' // Dark mode gradient
-    : 'linear-gradient(to right, #b57ef5, #FFFFFF, #f3f360)'; // Light mode gradient: Slightly Darker Purple, White, Very Light Yellow
+    ? 'linear-gradient(to right, #1e3a8a, #7f1d1d, #000000)'
+    : 'linear-gradient(to right, #b57ef5, #FFFFFF, #f3f360)';
 
-  // Determine text colors based on theme
+  // Define all theme-dependent color variables here
   const textColorPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900';
   const textColorSecondary = theme === 'dark' ? 'text-gray-300' : 'text-gray-700';
   const headingColor = theme === 'dark' ? 'text-blue-400' : 'text-blue-700';
@@ -139,31 +112,29 @@ const DashboardPage = () => {
   const inputBorderColor = theme === 'dark' ? 'border-gray-700' : 'border-gray-300';
   const inputFocusRing = theme === 'dark' ? 'focus:ring-blue-600' : 'focus:ring-blue-400';
 
-  // Fitness goal data for display
   const fitnessGoals = [
     {
       id: 'bulk',
       name: 'Bulk',
       description: 'Focus on gaining muscle mass and overall body weight. Typically involves a calorie surplus and heavy lifting.',
-      image: 'https://placehold.co/200x150/4CAF50/FFFFFF?text=BULK', // Green-themed image
+      image: 'https://placehold.co/200x150/4CAF50/FFFFFF?text=BULK',
       colorClass: theme === 'dark' ? 'border-green-500' : 'border-green-400'
     },
     {
       id: 'cut',
       name: 'Cut',
       description: 'Focus on losing body fat while preserving muscle mass. Typically involves a calorie deficit and consistent cardio.',
-      image: 'https://placehold.co/200x150/FF5722/FFFFFF?text=CUT', // Orange-themed image
+      image: 'https://placehold.co/200x150/FF5722/FFFFFF?text=CUT',
       colorClass: theme === 'dark' ? 'border-orange-500' : 'border-orange-400'
     },
     {
       id: 'recomp',
       name: 'Recomp',
       description: 'Focus on simultaneously building muscle and losing fat. Often involves maintaining calories and optimizing macronutrients.',
-      image: 'https://placehold.co/200x150/2196F3/FFFFFF?text=RECOMP', // Blue-themed image
+      image: 'https://placehold.co/200x150/2196F3/FFFFFF?text=RECOMP',
       colorClass: theme === 'dark' ? 'border-blue-500' : 'border-blue-400'
     },
   ];
-
 
   if (loadingUser) {
     return (
@@ -180,21 +151,21 @@ const DashboardPage = () => {
            style={{ backgroundImage: backgroundGradient, backgroundSize: '200% 200%', animation: 'gradient 10s ease infinite' }}>
         <h2 className={`${textColorPrimary} text-3xl font-bold mb-4`}>User data not found.</h2>
         <p className={`${textColorSecondary}`}>Please ensure you are logged in.</p>
-        {/* Optional: Add a button to navigate to login page here */}
       </div>
     );
   }
 
   return (
+    <>
+    <Navbar/>
     <div
-      className="relative min-h-screen w-screen flex flex-col items-center justify-start p-0 overflow-hidden pt-16" // pt-16 for navbar clearance
+      className="relative min-h-screen w-screen flex flex-col items-center justify-start p-0 overflow-hidden pt-16"
       style={{
         backgroundImage: backgroundGradient,
         backgroundSize: '200% 200%',
         animation: 'gradient 10s ease infinite',
       }}
     >
-      {/* Background gradient animation style */}
       <style>{`
         @keyframes gradient {
           0% { background-position: 0% 50%; }
@@ -203,15 +174,12 @@ const DashboardPage = () => {
         }
       `}</style>
 
-      {/* Dashboard Content Container */}
-      <div className={`relative z-10 w-full mx-auto my-8 p-6 md:p-8 rounded-3xl
-                flex flex-col space-y-8 backdrop-blur-md border border-transparent bg-transparent transition-all duration-500
-                    ${theme === 'dark' ? 'bg-gray-900 bg-opacity-70 border border-red-700' : 'bg-white bg-opacity-70 border border-blue-300'}`}>
+      <div className={`relative z-10 w-full my-8 p-6 md:p-8 rounded-3xl shadow-2xl backdrop-blur-md
+                    flex flex-col space-y-8 transition-colors duration-500 border border-transparent`}>
 
-        {/* Top Section: User Name and Profile Picture */}
-        <header className="flex flex-col sm:flex-row items-center justify-between pb-6 border-b border-opacity-20
-                           transition-colors duration-500
-                           ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}">
+        <header className={`flex flex-col sm:flex-row items-center justify-between pb-6 border-b border-opacity-20
+                           transition-colors duration-500 bg-transparent
+                           ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
           <div className="flex flex-col items-center sm:items-start mb-4 sm:mb-0">
             <h1 className={`${headingColor} text-4xl md:text-5xl font-extrabold drop-shadow-lg transition-colors duration-500 text-center sm:text-left`}>
               Welcome, {userData.name}!
@@ -228,40 +196,39 @@ const DashboardPage = () => {
               src={userData.profilePicture}
               alt={`${userData.name}'s Profile`}
               className="w-full h-full object-cover"
-              onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/150x150/CCCCCC/000000?text=User'; }} // Fallback image
+              onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/150x150/CCCCCC/000000?text=User'; }}
             />
-            {/* Optional: Online/Active indicator */}
             <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white shadow-md"></span>
           </div>
         </header>
 
-        {/* Daily Insights Section (Moved to top) */}
-        <section className="p-6 rounded-xl shadow-lg border 
-    ${theme === 'dark' ? 'bg-transparent border-white/10' : 'bg-transparent border-black/10'}}">
+        <section className={`p-6 rounded-xl shadow-lg border transition-colors duration-500 bg-transparent
+                         ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
           <h3 className={`${headingColor} text-2xl font-bold mb-4 text-center`}>Daily Insights</h3>
-          <p className={`${textColorPrimary} text-center text-xl font-semibold italic mb-4`}>{currentDate}</p>
-          {/* Removed motivational quote and article */}
+          <p className={`${textColorPrimary} text-center text-xl font-semibold italic`}>{currentDate}</p>
         </section>
 
-        {/* Your Fitness Goal Section */}
-        <section className="p-6 rounded-xl shadow-lg border 
-    ${theme === 'dark' ? 'bg-transparent border-white/10' : 'bg-transparent border-black/10'}">
+        <section className={`p-6 rounded-xl shadow-lg border transition-colors duration-500 bg-transparent
+                         ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
           <h3 className={`${headingColor} text-2xl font-bold mb-6 text-center`}>Choose Your Fitness Goal</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {fitnessGoals.map((goal) => (
               <div
                 key={goal.id}
                 onClick={() => setCurrentGoal(goal.id)}
-                className={`relative p-4 rounded-xl shadow-lg border-2 cursor-pointer
-                            flex flex-col items-center text-center
+                className={`relative p-4 rounded-xl shadow-lg cursor-pointer group
+                            flex flex-col items-center text-center bg-transparent
                             transition-all duration-300 ease-in-out transform hover:scale-105
-                            ${currentGoal === goal.id ? `${goal.colorClass} scale-105` : 'border-transparent'}
-                            ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-white hover:bg-gray-100'}
+                            ${currentGoal === goal.id
+                              ? `${goal.colorClass} scale-105 shadow-xl`
+                              : `border-transparent hover:border-blue-500/50 hover:shadow-xl`
+                            }
+                            ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}
                             `}
               >
-                <img src={goal.image} alt={goal.name} className="w-24 h-24 rounded-full object-cover mb-3 shadow-md" />
-                <h4 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{goal.name}</h4>
-                <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{goal.description}</p>
+                <img src={goal.image} alt={goal.name} className="w-24 h-24 rounded-full object-cover mb-3 shadow-md group-hover:shadow-lg transition-shadow duration-300" />
+                <h4 className={`text-xl font-bold mb-2 ${textColorPrimary}`}>{goal.name}</h4>
+                <p className={`text-sm ${textColorSecondary}`}>{goal.description}</p>
                 {currentGoal === goal.id && (
                   <span className="absolute top-2 right-2 text-green-500">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -274,67 +241,61 @@ const DashboardPage = () => {
           </div>
         </section>
 
-
-        {/* Key Metrics / Quick Links Section (Placeholders) */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card 1: Daily Progress */}
-          <div className={`p-6 rounded-xl shadow-lg border transition-colors duration-500
-                        ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-blue-700' : 'bg-gray-50 bg-opacity-60 border-blue-200'}`}>
+          <div className={`p-6 rounded-xl shadow-lg border transition-colors duration-500 bg-transparent
+                        ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
             <h3 className={`${headingColor} text-2xl font-bold mb-3`}>Daily Progress</h3>
             <p className={`${textColorSecondary}`}>5,200 steps today</p>
             <p className={`${textColorSecondary}`}>Workout completed: 45 min cardio</p>
           </div>
 
-          {/* Card 2: Next Workout */}
-          <div className={`p-6 rounded-xl shadow-lg border transition-colors duration-500
-                        ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-red-700' : 'bg-gray-50 bg-opacity-60 border-red-200'}`}>
+          <div className={`p-6 rounded-xl shadow-lg border transition-colors duration-500 bg-transparent
+                        ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
             <h3 className={`${headingColor} text-2xl font-bold mb-3`}>Next Workout</h3>
             <p className={`${textColorSecondary}`}>Strength Training - Arms & Shoulders</p>
             <p className={`${textColorSecondary}`}>Tomorrow, 7:00 AM</p>
           </div>
 
-          {/* Card 3: Nutrition Goal */}
-          <div className={`p-6 rounded-xl shadow-lg border transition-colors duration-500
-                        ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-purple-700' : 'bg-gray-50 bg-opacity-60 border-purple-200'}`}>
+          <div className={`p-6 rounded-xl shadow-lg border transition-colors duration-500 bg-transparent
+                        ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
             <h3 className={`${headingColor} text-2xl font-bold mb-3`}>Nutrition Goal</h3>
             <p className={`${textColorSecondary}`}>Calories remaining: 1200 kcal</p>
             <p className={`${textColorSecondary}`}>Protein target: 150g</p>
           </div>
         </section>
 
-        {/* Your Progress Charts Section */}
-        <DailyFoodDiary/> {/* End of Your Progress Charts Section */}
-        <section className="p-6 rounded-xl shadow-lg border transition-colors duration-500
-                         ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-yellow-700' : 'bg-gray-50 bg-opacity-60 border-yellow-200'}">
+        <DailyFoodDiary />
+
+        {/* Daily Mood Log Component is rendered here */}
+        <DailyMoodLog />
+
+        <section className={`p-6 rounded-xl shadow-lg border transition-colors duration-500 bg-transparent
+                         ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
           <h3 className={`${headingColor} text-2xl font-bold mb-4`}>Your Progress Charts</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Weight Progress Chart Placeholder */}
             <div
               onClick={() => handleChartClick('weight')}
-              className={`w-full flex items-center justify-center rounded-lg shadow-inner cursor-pointer
+              className={`w-full flex items-center justify-center rounded-lg shadow-inner cursor-pointer bg-transparent
                           transition-all duration-300 ease-in-out hover:scale-105
                           ${enlargedChart === 'weight' ? 'h-96 md:col-span-2' : 'h-48'}
-                          ${theme === 'dark' ? 'bg-gray-700 text-gray-400' : 'bg-gray-200 text-gray-600'}`}
+                          ${theme === 'dark' ? 'border border-white/10 text-gray-400' : 'border border-gray-200 text-gray-600'}`}
             >
               <p className="text-xl font-semibold">Weight Progress Chart (Placeholder)</p>
             </div>
-            {/* Another Chart Placeholder (e.g., Activity Trend) */}
             <div
               onClick={() => handleChartClick('activity')}
-              className={`w-full flex items-center justify-center rounded-lg shadow-inner cursor-pointer
+              className={`w-full flex items-center justify-center rounded-lg shadow-inner cursor-pointer bg-transparent
                           transition-all duration-300 ease-in-out hover:scale-105
                           ${enlargedChart === 'activity' ? 'h-96 md:col-span-2' : 'h-48'}
-                          ${theme === 'dark' ? 'bg-gray-700 text-gray-400' : 'bg-gray-200 text-gray-600'}`}
+                          ${theme === 'dark' ? 'border border-white/10 text-gray-400' : 'border border-gray-200 text-gray-600'}`}
             >
               <p className="text-xl font-semibold">Activity Trend Chart (Placeholder)</p>
             </div>
           </div>
         </section>
 
-
-        {/* Additional User Information & Edit Button */}
-        <section className="p-6 rounded-xl shadow-lg border transition-colors duration-500
-                         ${theme === 'dark' ? 'bg-gray-800 bg-opacity-60 border-green-700' : 'bg-gray-50 bg-opacity-60 border-green-200'}">
+        <section className={`p-6 rounded-xl shadow-lg border transition-colors duration-500 bg-transparent
+                         ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
           <div className="flex justify-between items-center mb-4">
             <h3 className={`${headingColor} text-2xl font-bold`}>Your Details</h3>
             <button
@@ -347,7 +308,6 @@ const DashboardPage = () => {
           </div>
 
           {isEditing ? (
-            // Edit Form
             <form onSubmit={(e) => { e.preventDefault(); handleSaveChanges(); }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className={`${textColorSecondary} block text-sm font-bold mb-1`}>Name:</label>
@@ -441,7 +401,6 @@ const DashboardPage = () => {
               </div>
             </form>
           ) : (
-            // Display Mode
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <p className={`${textColorSecondary}`}><strong>Name:</strong> {userData.name}</p>
               <p className={`${textColorSecondary}`}><strong>Email:</strong> {userData.email}</p>
@@ -457,6 +416,7 @@ const DashboardPage = () => {
 
       </div>
     </div>
+    </>
   );
 };
 

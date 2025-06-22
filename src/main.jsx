@@ -14,6 +14,7 @@ import FAQPage from './additional/FAQs.jsx'
 import AboutUsPage from './additional/AboutUs.jsx'
 import DashboardPage from './components/Dashboard.jsx'
 import DailyFoodDiary from './components/DailyFoodDiary.jsx'
+import DailyMoodLog from './components/DailyMood.jsx'
 const router=createBrowserRouter([
   {
     path:'/',
@@ -38,6 +39,10 @@ const router=createBrowserRouter([
       {
         path:'/aboutus',
         element:<AboutUsPage/>
+      },
+      {
+        path:'/dashboard',
+        element:<DashboardPage/>
       }
     ]
   }
@@ -46,7 +51,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
        <Provider store={store}>
-       <DashboardPage />
+       <RouterProvider router={router} />
     </Provider>
     </ThemeProvider>
   </StrictMode>,
