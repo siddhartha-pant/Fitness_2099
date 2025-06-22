@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext'; // Import useTheme hook
+import { signin } from '../services/auth';
+import { loginSuccess } from '../redux/AuthSlice';
 // Assuming loginUser is an action creator from auth services
 // import { loginUser } from '../services/auth'; // Uncomment if loginUser is used
 
@@ -24,19 +26,19 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate, sessionChecked]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Assuming loginUser is defined and imported
-    // dispatch(loginUser({ email, password }));
-    console.log("Login attempt with:", { email, password });
-    // Dummy login success/failure for demonstration if no actual backend login is hooked up
-    if (email === "test@example.com" && password === "password") {
-      console.log("Dummy login successful, navigating to dashboard.");
-      navigate("/dashboard");
-    } else {
-      console.log("Dummy login failed.");
-      // You might want to set an error state here
+    try{
+      const response= await signin({email, password})
+      if(response){
+        dispatch(loginSuccess(response.token))
+        navigate('/dashboard')
+      }
     }
+    catch(e){
+      console.error("error", e)
+    }
+
   };
 
   const handleSignUpClick = () => {

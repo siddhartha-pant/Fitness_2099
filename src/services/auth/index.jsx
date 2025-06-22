@@ -10,7 +10,7 @@ export const signin=async({email, password})=>{
         "password": password
         }
     try{ 
-        const response=await baseAPI.post("auth/signin", payload)
+        const response=await baseAPI.post("https://connectusonfitness.onrender.com/api/v1/auth/signin", payload)
         
         return response.data;
     }
