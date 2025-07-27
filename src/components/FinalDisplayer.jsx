@@ -4,11 +4,10 @@ import LandingPage from "./LandingPage";
 import Navbar from "./Navbar";
 
 const FinalDisplayer = () => {
-    return (<div>
-         
-      <Outlet/>
-      
-    </div>)
-    
-}
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
+};
 export default FinalDisplayer;

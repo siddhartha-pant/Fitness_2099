@@ -8,6 +8,7 @@ import { getUserProfile } from "../services/profile";
 import { loadUserprofile } from "../redux/UserSlice";
 
 const DashboardPage = () => {
+  console.log("dashboard");
   const { theme } = useTheme();
   const [userData, setUserData] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);

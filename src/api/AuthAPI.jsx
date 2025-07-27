@@ -9,3 +9,5 @@ export const verifyUserProfile = (tokenData) =>
   API.post("/api/v1/profile", tokenData);
 export const fetchUserData = (tokenData) =>
   API.get("/api/v1/profile", tokenData);
+export const updateProfile = (tokenData) =>
+  API.patch("/api/v1/profile", tokenData);

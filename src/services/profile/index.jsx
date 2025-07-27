@@ -37,3 +37,35 @@ export const updateUserProfile = async (token) => {
     throw error;
   }
 };
+
+export const createUserProfile = async (
+  token,
+  { weight, age, gender, trainingExperience, aim, chest, waist }
+) => {
+  const payload = {
+    weight: weight,
+    age: age,
+    gender: gender,
+    trainingExperience: trainingExperience,
+    aim: aim,
+    bodyMeasurements: {
+      chest: chest,
+      waist: waist,
+    },
+  };
+  try {
+    const response = await baseAPI.post(
+      "https://connectusonfitness.onrender.com/api/v1/profile",
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
