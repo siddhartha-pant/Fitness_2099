@@ -5,9 +5,11 @@ import Navbar from "./Navbar";
 
 const FinalDisplayer = () => {
   return (
-    <div>
+    <>
+      <Navbar />
       <Outlet />
-    </div>
+      <Footer />
+    </>
   );
 };
 export default FinalDisplayer;

@@ -22,35 +22,35 @@ const router = createBrowserRouter([
     element: <FinalDisplayer />,
     children: [
       {
-        path: "/",
+        index: true, // default route for "/"
         element: <LandingPage />,
       },
       {
-        path: "/signup",
+        path: "signup",
         element: <SignupPage />,
       },
       {
-        path: "/signIn",
+        path: "signIn",
         element: <LoginPage />,
       },
       {
-        path: "/home",
+        path: "home",
         element: <App />,
       },
       {
-        path: "/faqs",
+        path: "faqs",
         element: <FAQPage />,
       },
       {
-        path: "/aboutus",
+        path: "aboutus",
         element: <AboutUsPage />,
       },
       {
-        path: "/dashboard",
+        path: "dashboard",
         element: <DashboardPage />,
       },
       {
-        path: "/photoUpload",
+        path: "photoUpload",
         element: <PhotoUpload />,
       },
     ],
@@ -63,5 +63,5 @@ createRoot(document.getElementById("root")).render(
         <RouterProvider router={router} />
       </Provider>
     </ThemeProvider>
-  </StrictMode>
+  </StrictMode>,
 );
